@@ -16,8 +16,6 @@ stopword_list.remove('no')
 stopword_list.remove('not')
 tokenizer = ToktokTokenizer()
 
-!pip install vaderSentiment
-!pip install contractions
 
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 vs = SentimentIntensityAnalyzer()
