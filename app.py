@@ -1,5 +1,6 @@
 import streamlit as st
 import joblib
+import pickle
 
 import pandas as pd
 import numpy as np
@@ -15,8 +16,8 @@ stopword_list.remove('no')
 stopword_list.remove('not')
 tokenizer = ToktokTokenizer()
 
-df = joblib.load('sentiment')
 
+df = joblib.load(open('sentiment','rb'))
 
 # 1. Lower case
 df.news_headline = df.news_headline.apply(lambda x:x.lower())
