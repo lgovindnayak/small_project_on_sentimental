@@ -17,7 +17,7 @@ stopword_list.remove('not')
 tokenizer = ToktokTokenizer()
 
 
-df = joblib.load(open('sentiment','rb'))
+df = joblib.load(open('sentiment.csv','rb'))
 
 # 1. Lower case
 df.news_headline = df.news_headline.apply(lambda x:x.lower())
