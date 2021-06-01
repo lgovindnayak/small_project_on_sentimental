@@ -4,3 +4,4 @@ scikit_learn==0.24.1
 nltk
 beautifulsoup4
 contractions
+vaderSentiment
