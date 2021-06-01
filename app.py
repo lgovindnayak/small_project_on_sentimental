@@ -15,7 +15,7 @@ stopword_list.remove('no')
 stopword_list.remove('not')
 tokenizer = ToktokTokenizer()
 
-df = joblib.load('sentiment.csv')
+df = joblib.load('sentiment')
 
 
 # 1. Lower case
