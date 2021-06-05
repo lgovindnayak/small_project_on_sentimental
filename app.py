@@ -43,11 +43,11 @@ accuracy_score(y_pred,y_test)
 text = 'Not tasty and the texture was just nasty'
 ypred = model.predict(vect.transform([text]))
 
-#import joblib
-#joblib.dump(vect,'sentiment')
+import joblib
+joblib.dump(vect,'sentiment')
 
-#import joblib
-#joblib.dump(vect,'vectt')
+import joblib
+joblib.dump(vect,'vectt')
 
 import streamlit as st
 import joblib
