@@ -36,7 +36,6 @@ from sklearn.svm import SVC
 model = SVC()
 model.fit(x_train,y_train)
 y_pred = model.predict(x_test)
-y_pred
 
 from sklearn.metrics import  accuracy_score,confusion_matrix,classification_report
 accuracy_score(y_pred,y_test)
