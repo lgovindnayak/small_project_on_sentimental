@@ -1,50 +1,66 @@
+import numpy as np
+import pandas as pd
+import re 
+import nltk
+nltk.download("stopwords")
+from nltk.corpus import stopwords
+
+from nltk.stem.porter import PorterStemmer
+ps = PorterStemmer()
+
+dataset = pd.read_csv(r"/content/drive/MyDrive/Smartknowerpro/mproject/Restaurant_Reviews.tsv",delimiter = "\t")
+
+data = []
+for i in range(0,1000):
+    review = dataset["Review"][i]
+    review = re.sub('[^a-zA-Z]',' ',review)
+    review = review.lower()
+    review = review.split()
+    review = [ps.stem(word) for word in review if not word in set(stopwords.words('english'))]
+    review = ' '.join(review)
+    data.append(review)
+
+x = np.array(data)
+y = dataset.iloc[:,1].values
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size = 0.2,random_state=40)
+
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+vect = TfidfVectorizer()
+x_train = vect.fit_transform(x_train)
+x_test = vect.transform(x_test)
+
+from sklearn.svm import SVC
+model = SVC()
+model.fit(x_train,y_train)
+y_pred = model.predict(x_test)
+y_pred
+
+from sklearn.metrics import  accuracy_score,confusion_matrix,classification_report
+accuracy_score(y_pred,y_test)
+
+text = 'Not tasty and the texture was just nasty'
+ypred = model.predict(vect.transform([text]))
+
+#import joblib
+#joblib.dump(vect,'sentiment')
+
+#import joblib
+#joblib.dump(vect,'vectt')
+
 import streamlit as st
 import joblib
-import pickle
 
-import pandas as pd
-import numpy as np
-import os
-import nltk # nltk : natural process toolkit, used for remove the stop words
-import contractions 
-import re
-from nltk.tokenize.toktok import ToktokTokenizer
-
-nltk.download('stopwords')
-stopword_list = nltk.corpus.stopwords.words('english')
-stopword_list.remove('no')
-stopword_list.remove('not')
-tokenizer = ToktokTokenizer()
-
-
-df = joblib.load(open('sentiment.csv','rb'))
-
-# 1. Lower case
-df.news_headline = df.news_headline.apply(lambda x:x.lower())
-df.news_article = df.news_article.apply(lambda x:x.lower())
-
-# 2. HTMP Tags
-df.news_headline = df.news_headline.apply(html_tag)
-df.news_article = df.news_article.apply(html_tag)
-
-# 3. Contractions
-df.news_headline = df.news_headline.apply(con)
-df.news_article = df.news_article.apply(con)
-
-# 4. Special Charcters
-df.news_headline = df.news_headline.apply(remove_sp)
-df.news_article = df.news_article.apply(remove_sp)
-
-# 5. Stop Words
-df.news_headline = df.news_headline.apply(remove_stopwords)
-df.news_article = df.news_article.apply(remove_stopwords)
-
-df['compound'] = df['news_article'].apply(lambda x: vs.polarity_scores(x)['compound'])
-
+model = joblib.load('sentiment')
+vect1 = joblib.load('vectt')
 
 st.title('Sentimental Analysis')
 ip = st.text_input("Enter the message")
-op = vs.polarity_scores([ip])
-
-if st.button('polarity_scores'):
-  st.title(op[0])
+op = model.predict(vect.transform([ip]))
+if st.button('Predict'):
+  if op[0]==1:
+    st.title('Positive Review')
+  else:
+    st.title('Negative Review')
