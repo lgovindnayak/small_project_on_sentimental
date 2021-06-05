@@ -8,7 +8,7 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 ps = PorterStemmer()
 
-dataset = pd.read_csv(r"/content/drive/MyDrive/Smartknowerpro/mproject/Restaurant_Reviews.tsv",delimiter = "\t")
+dataset = pd.read_csv(r"Restaurant_Reviews.tsv",delimiter = "\t")
 
 data = []
 for i in range(0,1000):
