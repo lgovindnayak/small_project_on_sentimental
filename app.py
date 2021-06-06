@@ -44,7 +44,7 @@ text = 'Not tasty and the texture was just nasty'
 ypred = model.predict(vect.transform([text]))
 
 import joblib
-joblib.dump(vect,'sentiment')
+joblib.dump(model,'sentiment')
 
 import joblib
 joblib.dump(vect,'vectt')
