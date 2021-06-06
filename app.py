@@ -60,6 +60,6 @@ ip = st.text_input("Enter the message")
 op = model.predict(vect.transform([ip]))
 if st.button('Predict'):
   if op[0]==1:
-    st.title('Positive Review')
+    st.title('This is Positive Review')
   else:
-    st.title('Negative Review')
+    st.title('This is Negative Review')
